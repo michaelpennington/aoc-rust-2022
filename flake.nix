@@ -34,6 +34,7 @@
           packages = [
             rustToolchain
             pkgs.aoc-cli
+            pkgs.cargo-show-asm
           ];
 
           # Pointing the LSP directly to the overlay's source path ensures
