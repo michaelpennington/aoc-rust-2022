@@ -43,87 +43,67 @@ impl<const N: usize> Chain<N> {
 
 fn moves(dir: Pos, pos: Pos) -> (Pos, Option<Pos>) {
     match (pos, dir) {
-        (Pos::NW, Pos::NW) => (Pos::O, None),
-        (Pos::NW, Pos::N) => (Pos::W, None),
-        (Pos::NW, Pos::NE) => (Pos::W, Some(Pos::E)),
-        (Pos::NW, Pos::W) => (Pos::N, None),
-        (Pos::NW, Pos::O) => (Pos::NW, None),
-        (Pos::NW, Pos::E) => (Pos::W, Some(Pos::SE)),
-        (Pos::NW, Pos::SW) => (Pos::N, Some(Pos::S)),
-        (Pos::NW, Pos::S) => (Pos::N, Some(Pos::SE)),
+        (Pos::NW, Pos::NW)
+        | (Pos::N, Pos::N)
+        | (Pos::NE, Pos::NE)
+        | (Pos::W, Pos::W)
+        | (Pos::O, Pos::O)
+        | (Pos::E, Pos::E)
+        | (Pos::SW, Pos::SW)
+        | (Pos::S, Pos::S)
+        | (Pos::SE, Pos::SE) => (Pos::O, None),
+        (Pos::NW, Pos::N)
+        | (Pos::N, Pos::NE)
+        | (Pos::W, Pos::O)
+        | (Pos::O, Pos::E)
+        | (Pos::SW, Pos::S)
+        | (Pos::S, Pos::SE) => (Pos::W, None),
+        (Pos::SW, Pos::SE) | (Pos::NW, Pos::NE) | (Pos::W, Pos::E) => (Pos::W, Some(Pos::E)),
+        (Pos::NW, Pos::E) | (Pos::W, Pos::SE) => (Pos::W, Some(Pos::SE)),
+        (Pos::W, Pos::NE) | (Pos::SW, Pos::E) => (Pos::W, Some(Pos::NE)),
+        (Pos::NW, Pos::W)
+        | (Pos::N, Pos::O)
+        | (Pos::NE, Pos::E)
+        | (Pos::W, Pos::SW)
+        | (Pos::O, Pos::S)
+        | (Pos::E, Pos::SE) => (Pos::N, None),
+        (Pos::NW, Pos::SW) | (Pos::NE, Pos::SE) | (Pos::N, Pos::S) => (Pos::N, Some(Pos::S)),
+        (Pos::NW, Pos::S) | (Pos::N, Pos::SE) => (Pos::N, Some(Pos::SE)),
+        (Pos::NE, Pos::S) | (Pos::N, Pos::SW) => (Pos::N, Some(Pos::SW)),
+        (Pos::NW, Pos::O) | (Pos::N, Pos::E) | (Pos::W, Pos::S) | (Pos::O, Pos::SE) => {
+            (Pos::NW, None)
+        }
         (Pos::NW, Pos::SE) => (Pos::NW, Some(Pos::SE)),
-        (Pos::N, Pos::NW) => (Pos::E, None),
-        (Pos::N, Pos::N) => (Pos::O, None),
-        (Pos::N, Pos::NE) => (Pos::W, None),
-        (Pos::N, Pos::W) => (Pos::NE, None),
-        (Pos::N, Pos::O) => (Pos::N, None),
-        (Pos::N, Pos::E) => (Pos::NW, None),
-        (Pos::N, Pos::SW) => (Pos::N, Some(Pos::SW)),
-        (Pos::N, Pos::S) => (Pos::N, Some(Pos::S)),
-        (Pos::N, Pos::SE) => (Pos::N, Some(Pos::SE)),
-        (Pos::NE, Pos::NW) => (Pos::E, Some(Pos::W)),
-        (Pos::NE, Pos::N) => (Pos::E, None),
-        (Pos::NE, Pos::NE) => (Pos::O, None),
-        (Pos::NE, Pos::W) => (Pos::E, Some(Pos::SW)),
-        (Pos::NE, Pos::O) => (Pos::NE, None),
-        (Pos::NE, Pos::E) => (Pos::N, None),
+        (Pos::N, Pos::NW)
+        | (Pos::NE, Pos::N)
+        | (Pos::O, Pos::W)
+        | (Pos::E, Pos::O)
+        | (Pos::SE, Pos::S)
+        | (Pos::S, Pos::SW) => (Pos::E, None),
+        (Pos::NE, Pos::NW) | (Pos::E, Pos::W) | (Pos::SE, Pos::SW) => (Pos::E, Some(Pos::W)),
+        (Pos::E, Pos::NW) | (Pos::SE, Pos::W) => (Pos::E, Some(Pos::NW)),
+        (Pos::E, Pos::SW) | (Pos::NE, Pos::W) => (Pos::E, Some(Pos::SW)),
+        (Pos::N, Pos::W) | (Pos::NE, Pos::O) | (Pos::O, Pos::SW) | (Pos::E, Pos::S) => {
+            (Pos::NE, None)
+        }
         (Pos::NE, Pos::SW) => (Pos::NE, Some(Pos::SW)),
-        (Pos::NE, Pos::S) => (Pos::N, Some(Pos::SW)),
-        (Pos::NE, Pos::SE) => (Pos::N, Some(Pos::S)),
-        (Pos::W, Pos::NW) => (Pos::S, None),
-        (Pos::W, Pos::N) => (Pos::SW, None),
-        (Pos::W, Pos::NE) => (Pos::W, Some(Pos::NE)),
-        (Pos::W, Pos::W) => (Pos::O, None),
-        (Pos::W, Pos::O) => (Pos::W, None),
-        (Pos::W, Pos::E) => (Pos::W, Some(Pos::E)),
-        (Pos::W, Pos::SW) => (Pos::N, None),
-        (Pos::W, Pos::S) => (Pos::NW, None),
-        (Pos::W, Pos::SE) => (Pos::W, Some(Pos::SE)),
-        (Pos::O, Pos::NW) => (Pos::SE, None),
-        (Pos::O, Pos::N) => (Pos::S, None),
-        (Pos::O, Pos::NE) => (Pos::SW, None),
-        (Pos::O, Pos::W) => (Pos::E, None),
-        (Pos::O, Pos::O) => (Pos::O, None),
-        (Pos::O, Pos::E) => (Pos::W, None),
-        (Pos::O, Pos::SW) => (Pos::NE, None),
-        (Pos::O, Pos::S) => (Pos::N, None),
-        (Pos::O, Pos::SE) => (Pos::NW, None),
-        (Pos::E, Pos::NW) => (Pos::E, Some(Pos::NW)),
-        (Pos::E, Pos::N) => (Pos::SE, None),
-        (Pos::E, Pos::NE) => (Pos::S, None),
-        (Pos::E, Pos::W) => (Pos::E, Some(Pos::W)),
-        (Pos::E, Pos::O) => (Pos::E, None),
-        (Pos::E, Pos::E) => (Pos::O, None),
-        (Pos::E, Pos::SW) => (Pos::E, Some(Pos::SW)),
-        (Pos::E, Pos::S) => (Pos::NE, None),
-        (Pos::E, Pos::SE) => (Pos::N, None),
-        (Pos::SW, Pos::NW) => (Pos::S, Some(Pos::N)),
-        (Pos::SW, Pos::N) => (Pos::S, Some(Pos::NE)),
+        (Pos::W, Pos::NW)
+        | (Pos::O, Pos::N)
+        | (Pos::E, Pos::NE)
+        | (Pos::SW, Pos::W)
+        | (Pos::S, Pos::O)
+        | (Pos::SE, Pos::E) => (Pos::S, None),
+        (Pos::SW, Pos::NW) | (Pos::S, Pos::N) | (Pos::SE, Pos::NE) => (Pos::S, Some(Pos::N)),
+        (Pos::SW, Pos::N) | (Pos::S, Pos::NE) => (Pos::S, Some(Pos::NE)),
+        (Pos::SE, Pos::N) | (Pos::S, Pos::NW) => (Pos::S, Some(Pos::NW)),
+        (Pos::W, Pos::N) | (Pos::O, Pos::NE) | (Pos::SW, Pos::O) | (Pos::S, Pos::E) => {
+            (Pos::SW, None)
+        }
         (Pos::SW, Pos::NE) => (Pos::SW, Some(Pos::NE)),
-        (Pos::SW, Pos::W) => (Pos::S, None),
-        (Pos::SW, Pos::O) => (Pos::SW, None),
-        (Pos::SW, Pos::E) => (Pos::W, Some(Pos::NE)),
-        (Pos::SW, Pos::SW) => (Pos::O, None),
-        (Pos::SW, Pos::S) => (Pos::W, None),
-        (Pos::SW, Pos::SE) => (Pos::W, Some(Pos::E)),
-        (Pos::S, Pos::NW) => (Pos::S, Some(Pos::NW)),
-        (Pos::S, Pos::N) => (Pos::S, Some(Pos::N)),
-        (Pos::S, Pos::NE) => (Pos::S, Some(Pos::NE)),
-        (Pos::S, Pos::W) => (Pos::SE, None),
-        (Pos::S, Pos::O) => (Pos::S, None),
-        (Pos::S, Pos::E) => (Pos::SW, None),
-        (Pos::S, Pos::SW) => (Pos::E, None),
-        (Pos::S, Pos::S) => (Pos::O, None),
-        (Pos::S, Pos::SE) => (Pos::W, None),
+        (Pos::O, Pos::NW) | (Pos::E, Pos::N) | (Pos::S, Pos::W) | (Pos::SE, Pos::O) => {
+            (Pos::SE, None)
+        }
         (Pos::SE, Pos::NW) => (Pos::SE, Some(Pos::NW)),
-        (Pos::SE, Pos::N) => (Pos::S, Some(Pos::NW)),
-        (Pos::SE, Pos::NE) => (Pos::S, Some(Pos::N)),
-        (Pos::SE, Pos::W) => (Pos::E, Some(Pos::NW)),
-        (Pos::SE, Pos::O) => (Pos::SE, None),
-        (Pos::SE, Pos::E) => (Pos::S, None),
-        (Pos::SE, Pos::SW) => (Pos::E, Some(Pos::W)),
-        (Pos::SE, Pos::S) => (Pos::E, None),
-        (Pos::SE, Pos::SE) => (Pos::O, None),
     }
 }
 
