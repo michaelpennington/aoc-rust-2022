@@ -25,6 +25,7 @@ anyhow = "1.0.102"
 # Template dependencies
 chrono = { version = "0.4.38", optional = true }
 dhat = { version = "0.3.3", optional = true }
+glam = { version = "0.32.0", features = ["std", "fast-math"] }
 pico-args = "0.5.0"
 strum = { version = "0.28.0", features = ["strum_macros", "derive"] }
 tinyjson = "2.5.1"
